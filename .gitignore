@@ -1,2 +1,6 @@
 *.so
+*.o
+*.mod
+*.pyc
+*~
 test
