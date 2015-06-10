@@ -1,0 +1,5 @@
+Compile fortran code with
+make clean && make test
+To get the python module
+rm gemread.o
+f2py -c -m gempak gemread.f90 *.o -L/home/decker/met212/gempak/src/jasper-1.900.1/src/libjasper/.libs -ljasper

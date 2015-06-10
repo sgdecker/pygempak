@@ -1,0 +1,32 @@
+C************************************************************************
+C* /DBSET/								*
+C*									*
+C************************************************************************
+        CHARACTER       dbstid*6, dbstns*6,
+     +                  dbdatasrc*20, dbparms*128, dbprmfile*20,
+     +                  dbtimes(200)*20, dbtime*20, 
+     +                  dbmodel*20
+        LOGICAL         dbread, firstdb, gridtmdb
+        INTEGER         stnindx, stnlat, stnlon, stnelv, 
+     +                  dbstlt, dbstln, dbstel, ntotstn, igdtim
+        COMMON / DBSET /
+     +                  dbstns(LLSTFL),
+     +                  stnlat(LLSTFL),
+     +                  stnlon(LLSTFL),
+     +                  stnelv(LLSTFL),
+     +                  dbstlt,
+     +                  dbstln,
+     +                  dbstel,
+     +                  ntotstn,
+     +                  stnindx,
+     +                  igdtim,
+     +                  dbread,
+     +                  firstdb,
+     +                  gridtmdb,
+     +                  dbtimes,
+     +                  dbtime,
+     +                  dbmodel,
+     +                  dbstid,
+     +                  dbdatasrc,
+     +                  dbparms,
+     +                  dbprmfile
