@@ -185,6 +185,8 @@ OBJECTS = stlcuc.o \
 
 test: $(OBJECTS)
 	$(FC) -o $@ $(FFLAGS) $(OBJECTS) $(LDFLAGS)
+	rm -f gemread.o
+	f2py -c -m gempak gemread.f90 *.o -L/home/decker/classes/met212/gempak/jasper-1.900.1/src/libjasper/.libs -ljasper
 
 .f90.o:
 	$(FC) -c $(FFLAGS) $<
@@ -197,3 +199,6 @@ test: $(OBJECTS)
 
 clean:
 	rm -f *.o *.mod
+
+distclean:
+	rm -f *.o *.mod gempak.so test

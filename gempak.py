@@ -1,3 +1,20 @@
+# A Module for Accessing GEMPAK Data from Python
+
+# Copyright 2015 Steven G. Decker
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 import numpy as np
 import gempakf as gp
 import matplotlib.pyplot as plt
@@ -16,8 +33,8 @@ class Dataset:
         vcord = np.zeros((4,n), np.int8, 'F')
         parm = np.zeros((12,n), np.int8, 'F')
 
-        self.max_grids, self.num_grids, self.nx, self.ny, self.proj, self.ang, \
-            self.lllat, self.lllon, self.urlat, self.urlon = \
+        self.max_grids, self.num_grids, self.nx, self.ny, self.proj, \
+            self.ang, self.lllat, self.lllon, self.urlat, self.urlon = \
             gp.gemread.ggi(gemfile, gdattm, level, ivcord, vcord, parm)
 
         self.proj = self.proj.strip()
@@ -29,7 +46,8 @@ class Dataset:
             lev = [level[i,0], level[i,1]]
             vc = vcord[:,i].view('a4')[0].strip()
             fun = parm[:,i].view('a12')[0].strip()
-            datarow = {'gdattim': dattim, 'glevel': lev, 'gvcord': vc, 'gfunc': fun}
+            datarow = {'gdattim': dattim, 'glevel': lev, 'gvcord': vc, 
+                       'gfunc': fun}
             self.datainfo.append(datarow)
 
     def grid_from_num(self, num):
@@ -45,16 +63,17 @@ class Dataset:
 
     def grid_from_dict(self, d):
         grid = np.zeros((self.nx,self.ny), np.float32, 'F')
-        gp.gemread.read_grid(self. gemfile, d['gdattim'][0], d['gdattim'][1], \
-                                 d['glevel'][0], d['glevel'][1], d['gvcord'], \
-                                 d['gfunc'], grid)
+        gp.gemread.read_grid(self. gemfile, d['gdattim'][0], d['gdattim'][1],
+                             d['glevel'][0], d['glevel'][1], d['gvcord'],
+                             d['gfunc'], grid)
         return grid.transpose()
 
 def map_for_dataset(dset, res='l'):
     if dset.proj=='LCC':
-        m = Basemap(llcrnrlon=dset.lllon, llcrnrlat=dset.lllat, urcrnrlon=dset.urlon, \
-                        urcrnrlat = dset.urlat, projection='lcc', lat_1=dset.ang[0], \
-                        lat_2=dset.ang[2], lon_0=dset.ang[1], resolution=res)
+        m = Basemap(llcrnrlon=dset.lllon, llcrnrlat=dset.lllat,
+                    urcrnrlon=dset.urlon, urcrnrlat = dset.urlat,
+                    projection='lcc', lat_1=dset.ang[0], lat_2=dset.ang[2],
+                    lon_0=dset.ang[1], resolution=res)
     else:
         print 'Sorry, this projection is not yet supported.  :-('
         m = 0
