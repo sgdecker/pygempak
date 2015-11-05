@@ -81,7 +81,7 @@ def map_for_dataset(dset, res='l'):
     return m
     
 if __name__ == "__main__":
-    gemdata = Dataset('/ldmdata/gempak/model/nam/14032812_nam212.gem')
+    gemdata = Dataset('nam211.gem')
     print gemdata.datainfo[0]
     arr = gemdata.grid_from_dict(gemdata.datainfo[10])
     m = map_for_dataset(gemdata)
