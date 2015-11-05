@@ -1,6 +1,8 @@
+This project incorporates files from GEMPAK 6.8.0.  Some of the GEMPAK code has
+been commented out to allow this limited subset of GEMPAK to be compiled.  This also reduces the number of external libraries required.
+
 Compile code with
 make clean && make test
 
 TODO:
-Use system libjasper
-Eliminate common blocks
+Add docstrings

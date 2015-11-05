@@ -1,8 +1,8 @@
 FC = gfortran
 FFLAGS = -O2 -march=native -fPIC
 CC = gcc
-CFLAGS = -DUSE_JPEG2000 -I/home/decker/classes/met212/gempak/jasper-1.900.1/src/libjasper/include -march=native -fPIC
-LDFLAGS = -L/home/decker/classes/met212/gempak/jasper-1.900.1/src/libjasper/.libs -ljasper
+CFLAGS = -DUSE_JPEG2000 -march=native -fPIC
+LDFLAGS = -ljasper
 
 .SUFFIXES: .o .f90 .f .c
 
@@ -186,7 +186,7 @@ OBJECTS = stlcuc.o \
 test: $(OBJECTS)
 	$(FC) -o $@ $(FFLAGS) $(OBJECTS) $(LDFLAGS)
 	rm -f gemread.o
-	f2py -c -m gempakf gemread.f90 *.o -L/home/decker/classes/met212/gempak/jasper-1.900.1/src/libjasper/.libs -ljasper
+	f2py -c -m gempakf gemread.f90 *.o -ljasper
 
 .f90.o:
 	$(FC) -c $(FFLAGS) $<

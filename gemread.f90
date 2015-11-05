@@ -497,18 +497,18 @@ program test
   use gemread
   implicit none
 
-  character(*), parameter ::  &
-       fname = '/ldmdata/gempak/model/nam/14032812_nam212.gem'
+  character(*), parameter :: fname = 'nam211.gem', fname2 = 'newfile.gem'
+  integer,      parameter :: lun = 19
 
-  real, dimension(:,:), allocatable :: grid
-  integer, dimension(:,:), allocatable :: level
+  real,          dimension(:,:), allocatable :: grid
+  integer,       dimension(:,:), allocatable :: level
   character(20), dimension(:,:), allocatable :: gdattm
-  integer, dimension(:), allocatable :: ivcord
-  character(4), dimension(:), allocatable :: vcord
-  character(12), dimension(:), allocatable :: parm
-  real, dimension(3) :: ang
-  real :: lllat, lllon, urlat, urlon
-  integer :: i, n, nx, ny
+  integer,       dimension(:),   allocatable :: ivcord
+  character(4),  dimension(:),   allocatable :: vcord
+  character(12), dimension(:),   allocatable :: parm
+  real,          dimension(3) :: ang
+  real          :: lllat, lllon, urlat, urlon
+  integer       :: i, n, nx, ny, stat
   character(20) :: proj
 
   call get_num_grids(fname, n)
@@ -528,11 +528,13 @@ program test
   print *, vcord(:100)
   print *, parm(:100)
   allocate(grid(nx,ny))
-  call read_grid(fname, '140328/1200F000', '', 850, -1, 'PRES', 'HGHT', grid)
+  call read_grid(fname, '150610/1200F000', '', 850, -1, 'PRES', 'HGHT', grid)
   print *, grid(10,20)
-  call create_gemfile('newfile.gem', fname, 1000, i)
+  call create_gemfile(fname2, fname, 1000, i)
   print *, i
-  call write_grid('newfile.gem', '121025/0000F000', '', 850, -1, 'PRES', &
-       'HGHT', grid, i)
+  call write_grid(fname2, '121025/0000F000', '', 850, -1, 'PRES', 'HGHT',  &
+       grid, i)
   print *, i
+  open(unit=19, iostat=stat, file=fname2, status='old')
+  if (stat == 0) close(19, status='delete')
 end program test
